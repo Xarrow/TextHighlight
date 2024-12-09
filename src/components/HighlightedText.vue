@@ -13,8 +13,8 @@
         <span
           v-for="(part, partIndex) in section.parts"
           :key="`${index}-${partIndex}`"
-          class="font-bold transition-all"
-          :style="getPartStyle(part, getGlobalIndex(section, partIndex))"
+          class="highlight-text font-bold transition-all"
+          :style="[getPartStyle(part, getGlobalIndex(section, partIndex)), highlightedTextStyle]"
         >{{ part.text }}</span>
         <span 
           class="quote-mark quote-mark-after"
@@ -41,7 +41,7 @@ import { computed } from 'vue'
 import { calculateFadeStyle } from '../utils/fadeEffects.js'
 import { getQuoteStyle } from '../utils/quoteStyles.js'
 import { processTextSections } from '../utils/textProcessor.js'
-import { quoteConfig } from '../utils/quoteConfig.js'
+import { highlightConfig } from '../utils/highlightConfig.js'
 
 const props = defineProps({
   parts: {
@@ -52,6 +52,14 @@ const props = defineProps({
   quoteStyle: {
     type: String,
     default: 'default'
+  },
+  textScale: {
+    type: Number,
+    default: highlightConfig.text.scale
+  },
+  textSpacing: {
+    type: Number,
+    default: highlightConfig.text.spacing.word
   }
 })
 
@@ -72,13 +80,22 @@ const getPartStyle = (part, globalIndex) => {
 }
 
 const quoteMarkStyle = computed(() => ({
-  transform: `scale(${quoteConfig.size.scale})`,
+  transform: `scale(${highlightConfig.quote.size.scale})`,
   position: 'relative',
-  top: `${quoteConfig.size.verticalOffset}em`,
+  top: `${highlightConfig.quote.size.verticalOffset}em`,
   display: 'inline-block',
   willChange: 'transform, opacity',
   backfaceVisibility: 'hidden',
-  transition: `all ${quoteConfig.animation.duration}ms ${quoteConfig.animation.timing}`
+  transition: `all ${highlightConfig.quote.animation.duration}ms ${highlightConfig.quote.animation.timing}`
+}))
+
+const highlightedTextStyle = computed(() => ({
+  transform: `scale(${props.textScale})`,
+  fontWeight: highlightConfig.text.fontWeight,
+  letterSpacing: `${highlightConfig.text.spacing.letter}em`,
+  padding: `0 ${highlightConfig.text.spacing.padding}em`,
+  marginRight: `${props.textSpacing}em`,
+  transition: `all ${highlightConfig.text.transition.duration}ms ${highlightConfig.text.transition.timing}`
 }))
 </script>
 
@@ -90,9 +107,12 @@ const quoteMarkStyle = computed(() => ({
 
 .result span {
   display: inline-block;
-  padding: 0 1px;
   will-change: opacity, transform, filter;
   backface-visibility: hidden;
+}
+
+.highlight-text:last-of-type {
+  margin-right: 0;
 }
 
 .quote-mark {
@@ -101,17 +121,17 @@ const quoteMarkStyle = computed(() => ({
 }
 
 .quote-mark-before {
-  margin-right: calc(${quoteConfig.spacing.before}em + ${quoteConfig.spacing.edge}em);
+  margin-right: calc(${highlightConfig.quote.spacing.before}em + ${highlightConfig.quote.spacing.edge}em);
 }
 
 .quote-mark-after {
-  margin-left: calc(${quoteConfig.spacing.after}em + ${quoteConfig.spacing.edge}em);
+  margin-left: calc(${highlightConfig.quote.spacing.after}em + ${highlightConfig.quote.spacing.edge}em);
 }
 
 @media (hover: hover) {
   .result:hover .quote-mark {
     opacity: 1;
-    transform: scale(${quoteConfig.size.scaleHover});
+    transform: scale(${highlightConfig.quote.size.scaleHover});
   }
 }
 </style>

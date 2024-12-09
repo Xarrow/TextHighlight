@@ -20,6 +20,12 @@
           class="slide-up"
           style="animation-delay: 150ms"
         />
+        <HighlightStyleControls
+          v-model:scale="textScale"
+          v-model:spacing="textSpacing"
+          class="slide-up"
+          style="animation-delay: 200ms"
+        />
       </div>
     </div>
     <Transition name="fade">
@@ -27,6 +33,8 @@
         <HighlightedText 
           :parts="textParts"
           :quote-style="quoteStyle"
+          :text-scale="textScale"
+          :text-spacing="textSpacing"
         />
       </div>
     </Transition>
@@ -38,11 +46,15 @@ import { ref, computed } from 'vue'
 import TextInput from './TextInput.vue'
 import HighlightedText from './HighlightedText.vue'
 import QuoteStyleSelector from './QuoteStyleSelector.vue'
+import HighlightStyleControls from './HighlightStyleControls.vue'
 import { parseText } from '../utils/textParser.js'
+import { highlightConfig } from '../utils/highlightConfig.js'
 
 const fullText = ref('')
 const highlightText = ref('')
 const quoteStyle = ref('default')
+const textScale = ref(highlightConfig.text.scale)
+const textSpacing = ref(highlightConfig.text.spacing.word)
 
 const textParts = computed(() => {
   return parseText(fullText.value, highlightText.value)
