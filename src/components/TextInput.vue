@@ -2,16 +2,24 @@
   <div class="space-y-3">
     <textarea
       :value="modelValue"
-      class="w-full p-4 border rounded-xl shadow-sm focus:ring-2 focus:ring-blue-200 focus:border-blue-400 outline-none transition-all duration-200"
+      class="w-full p-4 border rounded-xl shadow-sm 
+             focus:ring-2 focus:ring-blue-200 focus:border-blue-400 
+             outline-none transition-all duration-200
+             hover:border-blue-300"
+      :class="{ 'animate-pulse': isAnimating }"
       :rows="rows"
       :placeholder="placeholder"
-      @input="$emit('update:modelValue', $event.target.value)"
+      @input="handleInput"
+      @focus="handleFocus"
+      @blur="handleBlur"
     ></textarea>
   </div>
 </template>
 
 <script setup>
-defineProps({
+import { ref } from 'vue'
+
+const props = defineProps({
   modelValue: {
     type: String,
     default: ''
@@ -26,5 +34,21 @@ defineProps({
   }
 })
 
-defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue'])
+const isAnimating = ref(false)
+
+const handleInput = (event) => {
+  emit('update:modelValue', event.target.value)
+}
+
+const handleFocus = () => {
+  isAnimating.value = true
+  setTimeout(() => {
+    isAnimating.value = false
+  }, 500)
+}
+
+const handleBlur = () => {
+  isAnimating.value = false
+}
 </script>
