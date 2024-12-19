@@ -1,10 +1,10 @@
 // 文本分割规则
 const TEXT_PATTERNS = {
   CHINESE_CHAR: /[\u4e00-\u9fa5]/,
-  ENGLISH_WORD: /[a-zA-Z]+/,
+  ENGLISH_WORD: /[a-zA-Z0-9]+/,
   WHITESPACE: /\s+/,
-  PUNCTUATION: /[.,!?;:]/,
-  OTHER: /[^\s\u4e00-\u9fa5a-zA-Z]/
+  PUNCTUATION: /[.,!?;:$]/,
+  OTHER: /[^\s\u4e00-\u9fa5a-zA-Z0-9$]/
 }
 
 function splitIntoChunks(text) {
@@ -19,7 +19,7 @@ function splitIntoChunks(text) {
 
 function processTextChunks(chunks, isHighlighted) {
   return chunks.map(chunk => ({
-    text: chunk,
+    text: chunk=='\n\n'?'\n':chunk,
     highlight: isHighlighted,
     type: getChunkType(chunk)
   }))

@@ -22,7 +22,7 @@
           </div>
           
           <div v-if="link" class="mt-4">
-            <QRCode :value="link" />
+            <QRCode :value="link" :size="size" />
           </div>
         </div>
 
@@ -63,6 +63,11 @@ const props = defineProps({
     type: String,
     default: ''
   }
+})
+
+const size = computed(() => {
+  // 根据设备宽度动态设置 QRCode 大小
+  return window.innerWidth < 600 ? 50 : 70; // 小于600px时为100，大于等于600px时为200
 })
 
 </script>

@@ -2,7 +2,7 @@
   <div class="space-y-6">
     <!-- Highlight Text Input -->
     <div class="space-y-2">
-      <label class="text-sm text-gray-600">高亮文本</label>
+      <label class="text-sm text-gray-600">高亮文本：</label>
       <TextInput
         :model-value="highlightText"
         @update:model-value="$emit('update:highlightText', $event)"
@@ -17,7 +17,7 @@
       <h3 class="text-sm font-medium text-gray-700">文章来源信息</h3>
       
       <div class="space-y-2">
-        <label class="text-sm text-gray-600">文章标题</label>
+        <label class="text-sm text-gray-600">文章标题：</label>
         <input
           :value="articleTitle"
           @input="$emit('update:articleTitle', $event.target.value)"
@@ -28,7 +28,7 @@
       </div>
       
       <div class="space-y-2">
-        <label class="text-sm text-gray-600">来源</label>
+        <label class="text-sm text-gray-600">来源：</label>
         <input
           :value="articleSource"
           @input="$emit('update:articleSource', $event.target.value)"
@@ -39,7 +39,7 @@
       </div>
       
       <div class="space-y-2">
-        <label class="text-sm text-gray-600">配图链接</label>
+        <label class="text-sm text-gray-600">配图链接：</label>
         <input
           :value="articleImage"
           @input="$emit('update:articleImage', $event.target.value)"
@@ -50,7 +50,7 @@
       </div>
 
       <div class="space-y-2">
-        <label class="text-sm text-gray-600">文章链接</label>
+        <label class="text-sm text-gray-600">文章链接：</label>
         <input
           :value="articleLink"
           @input="$emit('update:articleLink', $event.target.value)"

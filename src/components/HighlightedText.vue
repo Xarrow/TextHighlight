@@ -2,7 +2,7 @@
   <div class="result-container">
     <div
       v-if="parts?.length" 
-      class="result text-content text-lg leading-relaxed p-8 bg-white rounded-xl shadow-sm
+      class="result text-content text-lg leading-relaxed p-8 bg-white rounded-xl shadow-lg
              transition-all duration-300 hover:shadow-md"
       :style="containerStyle"
     >
